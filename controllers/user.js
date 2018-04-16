@@ -43,9 +43,28 @@ var sigin = async (ctx, next) => {
     ctx.session.uid = '';
     ctx.body = { status: 0, msg: 'success'};
   }
-  var updated = async (ctx, next) => {
-    let { username, password, nickname, birthday, rename, sex, avatar, bg } = ctx.request.body;
-    ctx.body = { status: 0, msg: 'success'};
+  var updatedUser = async (ctx, next) => {
+    let { password, nickname, birthday, rename, sex, avatar, bg } = ctx.request.body;
+    let user =  await User.findOne({_id: ctx.session.uid});
+    let newuser = await User.update({_id: ctx.session.uid}, {$set: {
+        password: password || user.password,
+        nickname: nickname || user.nickname,
+        birthday: birthday || user.birthday,
+        avatar: avatar || user.avatar,
+        bg: bg || user.bg,
+        rename: rename || user.rename,
+        sex: sex || user.sex
+    }})
+    user =  await User.findOne({_id: ctx.session.uid});
+    if(newuser) {
+        ctx.body = { status: 0, msg: 'success', data: {
+            user,
+        }};
+    } else {
+        ctx.body = { status: 1, msg: 'failed', data: {
+            user,
+        }};
+    }
   }
   
   module.exports = {
@@ -53,4 +72,5 @@ var sigin = async (ctx, next) => {
     'POST /siginUp': siginUp,
     'GET /getUserInfo': getUserInfo,
     'GET /loginOut': loginOut,
+    'POST /updatedUser': updatedUser,
   };

@@ -12,7 +12,7 @@ const user = new Schema({
     sex: String,
     avatar: {
         type: String, 
-        default: 'http://oj7h98lzb.bkt.clouddn.com/avatar' + Date.now()%9 +'.jpeg'
+        default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjdAK7AOTeUNOJyolLaCqAUXztW-LHRwVqkjDawtVGEgjIayVLlA'
     },
     bg: {
         type: String, 
