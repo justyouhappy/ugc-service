@@ -11,9 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ioredis": "^3.2.2",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
-    "koa-router": "^7.3.0"
+    "koa-router": "^7.3.0",
+    "koa-session2": "^2.2.5",
+    "mongoose": "^5.0.14"
   },
   "devDependencies": {
     "nodemon": "^1.17.2"
