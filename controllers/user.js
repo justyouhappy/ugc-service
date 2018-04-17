@@ -12,13 +12,13 @@ var sigin = async (ctx, next) => {
     }
   };
   var siginUp  = async (ctx, next) => {
-      let { username, password, nickname, birthday, rename, sex, avatar, bg } = ctx.request.body;
+      let { username, password, nickname, birthday, rename, sex } = ctx.request.body;
       let user =  await User.findOne({username: username});
       if(user) {
           ctx.body = { status: 1, msg: '用户名已存在' };
           return;
       }
-      let res = await User.create({ username, password, nickname, birthday, rename, sex, avatar, bg });
+      let res = await User.create({ username, password, nickname, birthday, rename, sex});
       if(res) {
           ctx.body = { status: 0, msg: '注册成功' };
       }
