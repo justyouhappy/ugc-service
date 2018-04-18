@@ -1,5 +1,5 @@
 const User = require('../model/user.js');
-// console.log(User);
+const Relationship = require('../model/relationship.js');
 var sigin = async (ctx, next) => {
     var username= ctx.request.body.username;
     var password = ctx.request.body.password;
@@ -40,8 +40,48 @@ var sigin = async (ctx, next) => {
     }
   };
   var loginOut  = async (ctx, next) => {
-    ctx.session.uid = '';
+    ctx.session.uid = null;
     ctx.body = { status: 0, msg: 'success'};
+  }
+  var searchUser  = async (ctx, next) => {
+    const { value } = ctx.request.body;
+    const uid = ctx.session.uid;
+    const reg = new RegExp(`${value}`, 'i');
+    try {
+        const data = await new Promise((resolve, reject) => {
+            User.find({ nickname: reg, _id: { $ne: uid } },function (err, data) {
+                if (err) reject(err);
+                resolve(data);
+            })
+        })
+        let fids = [];
+        if(uid) {
+            fids = await Relationship.find({uid});
+            fids = fids.map(e => e.fid);
+        }
+        datas = data.map(e => {
+            if(fids.indexOf(e._id + '') !== -1) {
+                return {
+                    nickname: e.nickname,
+                    avatar: e.avatar,
+                    birthday: e.birthday,
+                    isFllow: true,
+                    _id: e._id
+                }
+            } else {
+                return {
+                    nickname: e.nickname,
+                    avatar: e.avatar,
+                    birthday: e.birthday,
+                    isFllow: false,
+                    _id: e._id
+                }
+            }
+        });
+        ctx.body = { status: 0, msg: 'success', data: datas};       
+    } catch (e) {
+        ctx.body = { status: 1, msg: e.message};        
+    }
   }
   var updatedUser = async (ctx, next) => {
     let { password, nickname, birthday, rename, sex, avatar, bg } = ctx.request.body;
@@ -73,4 +113,5 @@ var sigin = async (ctx, next) => {
     'GET /getUserInfo': getUserInfo,
     'GET /loginOut': loginOut,
     'POST /updatedUser': updatedUser,
+    'POST /searchUser': searchUser,
   };

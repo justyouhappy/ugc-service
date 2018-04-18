@@ -9,7 +9,8 @@ const app = new Koa();
 
 app.use(bodyParser());
 app.use(session({
-    // store: new Store()
+    store: new Store(),
+    maxAge: 10000000
 }));
 app
     .use(beforeRes)
