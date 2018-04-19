@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const relationship = new Schema({
+const article = new Schema({
     uid: String,
-    fid: String,
+    context: String,
+    image: Array,
     createdAt: {
         type: Date, 
         default: Date.now()
     },
 })
-module.exports = mongoose.model('relationship', relationship);
+module.exports = mongoose.model('article', article);
