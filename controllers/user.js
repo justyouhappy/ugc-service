@@ -4,6 +4,10 @@ var sigin = async (ctx, next) => {
     var username= ctx.request.body.username;
     var password = ctx.request.body.password;
     let user =  await User.findOne({username: username});
+    if(!user) {
+        ctx.body = { status: 1, msg: '用户名不存在' };
+        return;
+    }
     if(password === user.password) {
         ctx.body = { status: 0, msg: '登录成功！' };
         ctx.session.uid = user._id;

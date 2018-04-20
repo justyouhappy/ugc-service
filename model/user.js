@@ -12,11 +12,11 @@ const user = new Schema({
     sex: String,
     avatar: {
         type: String, 
-        default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjdAK7AOTeUNOJyolLaCqAUXztW-LHRwVqkjDawtVGEgjIayVLlA'
+        default: 'http://oj7h98lzb.bkt.clouddn.com/avatar' + Date.now()%10 +'.jpeg?imageView2/1/w/250/h/169/interlace/1/q/100'
     },
     bg: {
         type: String, 
-        default: 'http://oj7h98lzb.bkt.clouddn.com/avatar' + Date.now()%9 +'.jpeg'
+        default: 'http://oj7h98lzb.bkt.clouddn.com/avatar' + Date.now()%9 +'.jpeg?imageView2/1/w/250/h/169/interlace/1/q/100'
     },
     createdAt: {
         type: Date, 
